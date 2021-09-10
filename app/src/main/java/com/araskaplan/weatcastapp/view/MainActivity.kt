@@ -1,31 +1,55 @@
 package com.araskaplan.weatcastapp.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.araskaplan.weatcastapp.R
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.araskaplan.weatcastapp.base.WeatherApp
+import com.araskaplan.weatcastapp.model.WeatherResponse
+import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-    private val BASE_URL="api.openweathermap.org/data/2.5/weather?q="
-    private val APIKEY="1a0d7917c1162b9e4833fc1dee2c02c6"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-
+        getData()
     }
 
     private fun getData(){
-        val retrofit=Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
+        val cityname:String=intent.getStringExtra("cityname")!!
 
+        WeatherApp.instance.service.getData(cityname,"metric").enqueue(
+            object:Callback<WeatherResponse>{
+                override fun onResponse(
+                    call: Call<WeatherResponse>,
+                    response: Response<WeatherResponse>
+                ) {
+                    var temp= response.body().apply {
+                        main_act_text1.text=this!!.name
+                        main_act_text2.text="${this!!.main.temp}"
+                        main_act_text3.text=this!!.weather[0].description
+                        main_act_text4.text= "${ this!!.wind.speed }"
+                        main_act_text5.text= this!!.weather[0].main
+                        main_act_text6.text= "${ this!!.visibility }"
+
+                    }
+                    //Ui islemleri
+
+                }
+
+                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+
+                    Toast.makeText(this@MainActivity,t.localizedMessage,Toast.LENGTH_LONG).show()
+                }
+            }
+        )
     }
 
 
