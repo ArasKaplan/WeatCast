@@ -16,7 +16,7 @@ import java.io.IOException
 
 class WeatherApp : Application() {
     private val BASE_URL_OPENWEATHER="https://api.openweathermap.org/data/2.5/"
-    private val BASE_URL_RESTCOUNTRY="https://restcountries.eu/rest/v2/"
+    private val BASE_URL_RESTCOUNTRY="https://ajayakv-rest-countries-v1.p.rapidapi.com"
     lateinit var openWeatherService:OpenWeatherAPI
     lateinit var RestCountriesService:RestCountriesAPI
 
@@ -46,7 +46,7 @@ class WeatherApp : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        RestCountriesService=retrofitRestCountriesAPI.create(RestCountriesAPI::class.java)
+        RestCountriesService=retrofitRestCountriesAPI.create(RestCountriesService::class.java)
 
     }
 

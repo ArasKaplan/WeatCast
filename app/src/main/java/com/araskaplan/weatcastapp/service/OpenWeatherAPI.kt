@@ -1,7 +1,6 @@
 package com.araskaplan.weatcastapp.service
 
 
-import com.araskaplan.weatcastapp.model.City
 import com.araskaplan.weatcastapp.model.WeatherResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -18,4 +17,6 @@ interface OpenWeatherAPI {
 
 
     fun getCityList():Call<List<City>>
+
+
 }
