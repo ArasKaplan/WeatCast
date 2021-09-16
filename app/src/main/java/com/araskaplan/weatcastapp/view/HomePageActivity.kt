@@ -1,5 +1,6 @@
 package com.araskaplan.weatcastapp.view
 
+import android.animation.Animator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -46,12 +47,19 @@ class HomePageActivity : AppCompatActivity() {
         }
         recyclerview.layoutManager=LinearLayoutManager(this)
         recyclerview.adapter=cityAdapter
+        recyclerView.scheduleLayoutAnimation()
+
+        home_page_fab.setOnClickListener(){
+            val intent=Intent(it.context,CityAdderActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 
-    private fun getData(city:String, adapter: CityAdapter){//ask about a better way to do this
+    private fun getData(city:String, adapter: CityAdapter){
         var temp:WeatherResponse?=null
-        WeatherApp.instance.service.getData(city,"metric").enqueue(
+        WeatherApp.instance.openWeatherService.getData(city,"metric").enqueue(
             object: Callback<WeatherResponse> {
                 override fun onResponse(
                     call: Call<WeatherResponse>,
@@ -59,7 +67,6 @@ class HomePageActivity : AppCompatActivity() {
                 ){
                     response.body()?.let { asd->
                         responseList.add(asd)
-                        println("been here")
                     }
                     adapter.notifyDataSetChanged()
                 }

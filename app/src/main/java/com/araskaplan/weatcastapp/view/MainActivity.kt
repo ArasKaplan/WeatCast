@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         val cityname:String=intent.getStringExtra("cityname")!!
 
-        WeatherApp.instance.service.getData(cityname,"metric").enqueue(
+        WeatherApp.instance.openWeatherService.getData(cityname,"metric").enqueue(
             object:Callback<WeatherResponse>{
                 override fun onResponse(
                     call: Call<WeatherResponse>,

@@ -1,15 +1,24 @@
 package com.araskaplan.weatcastapp.base
 
 import android.app.Application
+import com.araskaplan.weatcastapp.model.City
 import com.araskaplan.weatcastapp.service.OpenWeatherAPI
+import com.araskaplan.weatcastapp.service.RestCountriesAPI
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import okhttp3.OkHttpClient
+import okhttp3.internal.Internal.instance
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONTokener
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 class WeatherApp : Application() {
-    private val BASE_URL="https://api.openweathermap.org/data/2.5/"
-    lateinit var service:OpenWeatherAPI
+    private val BASE_URL_OPENWEATHER="https://api.openweathermap.org/data/2.5/"
+    private val BASE_URL_RESTCOUNTRY="https://restcountries.eu/rest/v2/"
+    lateinit var openWeatherService:OpenWeatherAPI
+    lateinit var RestCountriesService:RestCountriesAPI
 
     override fun onCreate() {
         super.onCreate()
@@ -23,15 +32,24 @@ class WeatherApp : Application() {
             .build()
 
 
-        val retrofit= Retrofit.Builder()
-            .baseUrl(BASE_URL)
+        val retrofitOpenWeatherAPI= Retrofit.Builder()
+            .baseUrl(BASE_URL_OPENWEATHER)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        service=retrofit.create(OpenWeatherAPI::class.java)
+        openWeatherService=retrofitOpenWeatherAPI.create(OpenWeatherAPI::class.java)
+
+        val retrofitRestCountriesAPI=Retrofit.Builder()
+            .baseUrl(BASE_URL_RESTCOUNTRY)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        RestCountriesService=retrofitRestCountriesAPI.create(RestCountriesAPI::class.java)
 
     }
+
     companion object{
         lateinit var instance:WeatherApp
     }
