@@ -14,11 +14,19 @@ import retrofit2.Response
 
 class CityAdderActivity : AppCompatActivity() {
 
-    lateinit var countryList:ArrayList<String>
+    lateinit var countryListString:ArrayList<String>
+    lateinit var arrayAdapter: ArrayAdapter<String>
+    lateinit var countryList: ArrayList<Country>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        countryList=ArrayList<String>()
+
+        countryList= ArrayList()
+
+        countryListString=ArrayList<String>()
+        arrayAdapter= ArrayAdapter(this@CityAdderActivity,android.R.layout.simple_spinner_item,countryListString)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        main_act_spinner.adapter=arrayAdapter
         getCountries()
 
 
@@ -28,15 +36,21 @@ class CityAdderActivity : AppCompatActivity() {
 
     private fun getCountries(){
         WeatherApp.instance.RestCountriesService.getCountries().enqueue(
-            object : Callback<Country> {
+            object : Callback<List<Country>> {
                 override fun onResponse(
-                    call: Call<Country>,
-                    response: Response<Country>) {
+                    call: Call<List<Country>>,
+                    response: Response<List<Country>>) {
                     response.body()?.let {
-                        countryList.add(it.name)
+                        for (country in it){
+                            countryListString.add(country.name)
+                            countryList.add(country)
+                            println(country.name)
+                        }
+                        arrayAdapter.notifyDataSetChanged()
+
                     }
                 }
-                override fun onFailure(call: Call<Country>, t: Throwable) {
+                override fun onFailure(call: Call<List<Country>>, t: Throwable) {
                     Toast.makeText(this@CityAdderActivity,t.localizedMessage, Toast.LENGTH_LONG).show()
                 }
             }

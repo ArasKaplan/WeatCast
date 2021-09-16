@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface RestCountriesAPI {
 
-    @GET("/rest/v1/all")
-    fun getCountries():Call<Country>
+    @GET("all")
+    fun getCountries():Call<List<Country>>
 }

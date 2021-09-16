@@ -2,6 +2,7 @@ package com.araskaplan.weatcastapp.base
 
 import android.app.Application
 import com.araskaplan.weatcastapp.model.City
+import com.araskaplan.weatcastapp.service.CountryStateAPI
 import com.araskaplan.weatcastapp.service.OpenWeatherAPI
 import com.araskaplan.weatcastapp.service.RestCountriesAPI
 import com.google.gson.Gson
@@ -16,7 +17,9 @@ import java.io.IOException
 
 class WeatherApp : Application() {
     private val BASE_URL_OPENWEATHER="https://api.openweathermap.org/data/2.5/"
-    private val BASE_URL_RESTCOUNTRY="https://ajayakv-rest-countries-v1.p.rapidapi.com"
+    private val BASE_URL_RESTCOUNTRY="https://restcountries.eu/rest/v2/"
+    private val BASE_URL_CountryState="https://api.countrystatecity.in/v1/countries/[ciso]/cities"
+    lateinit var CountryStateService:CountryStateAPI
     lateinit var openWeatherService:OpenWeatherAPI
     lateinit var RestCountriesService:RestCountriesAPI
 
@@ -46,7 +49,16 @@ class WeatherApp : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        RestCountriesService=retrofitRestCountriesAPI.create(RestCountriesService::class.java)
+        RestCountriesService=retrofitRestCountriesAPI.create(RestCountriesAPI::class.java)
+
+
+        val retrofitCountryStateAPI=Retrofit.Builder()
+            .baseUrl(BASE_URL_CountryState)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        CountryStateService=retrofitCountryStateAPI.create(CountryStateAPI::class.java)
 
     }
 
