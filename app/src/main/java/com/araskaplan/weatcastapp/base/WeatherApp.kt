@@ -1,7 +1,6 @@
 package com.araskaplan.weatcastapp.base
 
 import android.app.Application
-import com.araskaplan.weatcastapp.model.City
 import com.araskaplan.weatcastapp.service.CountryStateAPI
 import com.araskaplan.weatcastapp.service.OpenWeatherAPI
 import com.araskaplan.weatcastapp.service.RestCountriesAPI
@@ -18,7 +17,7 @@ import java.io.IOException
 class WeatherApp : Application() {
     private val BASE_URL_OPENWEATHER="https://api.openweathermap.org/data/2.5/"
     private val BASE_URL_RESTCOUNTRY="https://restcountries.eu/rest/v2/"
-    private val BASE_URL_CountryState="https://api.countrystatecity.in/v1/countries/[ciso]/cities"
+    private val BASE_URL_CountryState="https://api.countrystatecity.in/v1/"
     lateinit var CountryStateService:CountryStateAPI
     lateinit var openWeatherService:OpenWeatherAPI
     lateinit var RestCountriesService:RestCountriesAPI

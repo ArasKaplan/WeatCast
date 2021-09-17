@@ -17,17 +17,19 @@ class CityAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.recycler_card,parent,false)
-        return CityHolder(v)
+        return CityHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_card,parent,false))
     }
 
     override fun onBindViewHolder(holder: CityHolder, position: Int) {
-        holder.itemView.card_city_name.text=items[position].name
-        holder.itemView.card_forecast.text=items[position].weather[0].description
-        holder.itemView.card_temp.text="$items[position].main.temp"
-        holder.itemView.rec_card_img.setOnClickListener(){
-        callback.onListItemSelected(items.get(position).name)
+        holder.itemView.apply {
+            card_city_name.text=items[position].name
+            card_forecast.text=items[position].weather[0].description
+            card_temp.text="$items[position].main.temp"
+            rec_card_img.setOnClickListener(){
+                callback.onListItemSelected(items.get(position).name)
+            }
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -35,7 +37,6 @@ class CityAdapter(
     }
 
     class CityHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val cityName:TextView=itemView.card_city_name
 
     }
 

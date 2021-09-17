@@ -21,11 +21,13 @@ class CityAdderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        countryList= ArrayList()
+        countryList= arrayListOf()
 
-        countryListString=ArrayList<String>()
-        arrayAdapter= ArrayAdapter(this@CityAdderActivity,android.R.layout.simple_spinner_item,countryListString)
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        countryListString= arrayListOf()
+        arrayAdapter= ArrayAdapter(this@CityAdderActivity,android.R.layout.simple_spinner_item,countryListString).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        }
         main_act_spinner.adapter=arrayAdapter
         getCountries()
 
@@ -41,11 +43,8 @@ class CityAdderActivity : AppCompatActivity() {
                     call: Call<List<Country>>,
                     response: Response<List<Country>>) {
                     response.body()?.let {
-                        for (country in it){
-                            countryListString.add(country.name)
-                            countryList.add(country)
-                            println(country.name)
-                        }
+                        countryList.addAll(it)
+                        for (country in it)  countryListString.add(country.name)
                         arrayAdapter.notifyDataSetChanged()
 
                     }

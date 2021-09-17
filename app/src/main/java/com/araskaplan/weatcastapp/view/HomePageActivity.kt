@@ -1,6 +1,7 @@
 package com.araskaplan.weatcastapp.view
 
 import android.animation.Animator
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,45 +21,37 @@ import retrofit2.Response
 
 class HomePageActivity : AppCompatActivity() {
     private lateinit var responseList:ArrayList<WeatherResponse>
-    lateinit var recyclerView:RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
-        recyclerView=findViewById(R.id.recyclerview)
 
-        var cities=ArrayList<String>()
-        cities.add("London")
-        cities.add("Istanbul")
-        cities.add("Chicago")
+        var cities= arrayListOf<String>("London","Istanbul","Chicago")
 
         responseList= arrayListOf()
+
         val cityAdapter=CityAdapter(responseList,object :ListItemSelectedListener{
             override fun onListItemSelected(name: String) {
-                val intent= Intent(this@HomePageActivity,MainActivity::class.java)
-                intent.putExtra("cityname",name)
-                startActivity(intent)
+                startActivity(Intent(this@HomePageActivity,MainActivity::class.java).putExtra("cityname",name))
             }
         })
 
-        for (city in cities){
-            //responseList.add(getData(city))
-            getData(city,cityAdapter)
-        }
-        recyclerview.layoutManager=LinearLayoutManager(this)
-        recyclerview.adapter=cityAdapter
-        recyclerView.scheduleLayoutAnimation()
+        for (city in cities) getData(city,cityAdapter)
 
-        home_page_fab.setOnClickListener(){
-            val intent=Intent(it.context,CityAdderActivity::class.java)
-            startActivity(intent)
+        recyclerview.apply {
+            layoutManager=LinearLayoutManager(this@HomePageActivity)
+            adapter=cityAdapter
+            scheduleLayoutAnimation()
+        }
+
+        home_page_fab.setOnClickListener{
+            startActivity(Intent(it.context,CityAdderActivity::class.java))
         }
 
 
     }
 
     private fun getData(city:String, adapter: CityAdapter){
-        var temp:WeatherResponse?=null
         WeatherApp.instance.openWeatherService.getData(city,"metric").enqueue(
             object: Callback<WeatherResponse> {
                 override fun onResponse(
@@ -67,8 +60,8 @@ class HomePageActivity : AppCompatActivity() {
                 ){
                     response.body()?.let { asd->
                         responseList.add(asd)
+                        adapter.notifyDataSetChanged()
                     }
-                    adapter.notifyDataSetChanged()
                 }
                 override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                     Toast.makeText(this@HomePageActivity,t.localizedMessage, Toast.LENGTH_LONG).show()
