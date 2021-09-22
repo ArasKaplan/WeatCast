@@ -26,7 +26,7 @@ class CityAdapter(
             card_forecast.text=items[position].weather[0].description
             card_temp.text="$items[position].main.temp"
             rec_card_img.setOnClickListener(){
-                callback.onListItemSelected(items.get(position).name)
+                callback.onListItemSelected(items[position].name)
             }
         }
 

@@ -18,15 +18,25 @@ import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
+import java.util.LinkedList
 
 class HomePageActivity : AppCompatActivity() {
     private lateinit var responseList:ArrayList<WeatherResponse>
+    private lateinit var myQueue: Queue<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
 
-        var cities= arrayListOf<String>("London","Istanbul","Chicago")
+        myQueue=LinkedList()
+
+
+        myQueue.offer("London")
+        myQueue.offer("Istanbul")
+        myQueue.offer("Chicago")
+        myQueue.offer("New York")
 
         responseList= arrayListOf()
 
@@ -36,7 +46,16 @@ class HomePageActivity : AppCompatActivity() {
             }
         })
 
-        for (city in cities) getData(city,cityAdapter)
+        //for (city in cities) getData(city,cityAdapter)
+
+        myQueue.peek().apply {
+            getData(myQueue,cityAdapter)
+        }
+
+        /*myQueue.poll()?.apply {
+            getData(this,cityAdapter)
+        }*/
+
 
         recyclerview.apply {
             layoutManager=LinearLayoutManager(this@HomePageActivity)
@@ -61,6 +80,9 @@ class HomePageActivity : AppCompatActivity() {
                     response.body()?.let { asd->
                         responseList.add(asd)
                         adapter.notifyDataSetChanged()
+                        myQueue.poll()?.apply {
+                            getData(this,adapter)
+                        }
                     }
                 }
                 override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
@@ -69,4 +91,28 @@ class HomePageActivity : AppCompatActivity() {
             }
         )
     }
+    //Overload GetData
+    private fun getData(queue:Queue<String>,adapter: CityAdapter){
+        WeatherApp.instance.openWeatherService.getData(queue.remove(),"metric").enqueue(
+            object: Callback<WeatherResponse>{
+                override fun onResponse(
+                    call: Call<WeatherResponse>,
+                    response: Response<WeatherResponse>
+                ) {
+                    response.body()?.let {
+                        responseList.add(it)
+                        adapter.notifyDataSetChanged()
+                        queue.peek()?.apply {
+                            getData(queue,adapter)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                    Toast.makeText(this@HomePageActivity,t.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        )
+    }
+
 }
