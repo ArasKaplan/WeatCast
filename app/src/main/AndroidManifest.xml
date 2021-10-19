@@ -12,8 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatCastApp">
-        <activity android:name=".view.CityAdderActivity"></activity>
-        <activity android:name=".view.HomePageActivity">
+        <activity android:name=".view.HomePageActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

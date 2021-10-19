@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".view.MainActivity">
 
     <LinearLayout
@@ -15,36 +16,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Spinner
-            android:id="@+id/main_act_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="50dp" />
-
-        <Spinner
-            android:id="@+id/main_act_spinner2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="50dp" />
-
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/main_act_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/drawable_back"
+            android:padding="2dp"
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/main_act_city_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:paddingLeft="5dp"
+            android:background="@drawable/drawable_back"
+            android:padding="2dp"
             android:text="City:"
+            android:textColor="@color/white"
             android:textSize="34sp" />
 
         <ScrollView
@@ -61,8 +50,10 @@
                     android:id="@+id/main_act_text1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
+                    android:background="@drawable/drawable_back"
+                    android:padding="2dp"
                     android:text="TextView"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
                 <TextView
@@ -70,8 +61,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="5dp"
+                    android:background="@drawable/drawable_back"
+                    android:padding="2dp"
                     android:text="TextView"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
                 <TextView
@@ -79,8 +72,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="5dp"
+                    android:background="@drawable/drawable_back"
+                    android:padding="2dp"
                     android:text="TextView"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
                 <TextView
@@ -88,8 +83,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="5dp"
+                    android:background="@drawable/drawable_back"
+                    android:padding="2dp"
                     android:text="TextView"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
                 <TextView
@@ -97,18 +94,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="5dp"
+                    android:background="@drawable/drawable_back"
+                    android:padding="2dp"
                     android:text="TextView"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
-                <TextView
-                    android:id="@+id/main_act_text6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="5dp"
-                    android:text="TextView"
-                    android:textSize="24sp" />
             </LinearLayout>
         </ScrollView>
 

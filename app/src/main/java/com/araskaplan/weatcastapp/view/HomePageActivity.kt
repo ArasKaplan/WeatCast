@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
 import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -126,7 +127,6 @@ class HomePageActivity : AppCompatActivity() {
             myQueue.peek()?.let {
                 getData(myQueue,cityAdapter)
             }
-            println("deneme")
         }
     }
 

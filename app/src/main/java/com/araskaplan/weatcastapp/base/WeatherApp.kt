@@ -4,34 +4,23 @@ import android.app.Application
 import com.araskaplan.weatcastapp.model.CityResponse
 import com.araskaplan.weatcastapp.model.CountryPost
 import com.araskaplan.weatcastapp.model.SQLiteHelper
-import com.araskaplan.weatcastapp.service.CountryStateAPI
 import com.araskaplan.weatcastapp.service.OpenWeatherAPI
 import com.araskaplan.weatcastapp.service.PostmanCitiesAPI
-import com.araskaplan.weatcastapp.service.RestCountriesAPI
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import okhttp3.OkHttpClient
-import okhttp3.internal.Internal.instance
 import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONTokener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 class WeatherApp : Application() {
     private val BASE_URL_OPENWEATHER="https://api.openweathermap.org/data/2.5/"
-    private val BASE_URL_RESTCOUNTRY="https://restcountries.eu/rest/v2/"
-    private val BASE_URL_CountryState="https://api.countrystatecity.in/v1/"
     private val BASE_URL_POSTMANCITIES="https://countriesnow.space/api/v0.1/"
     var TRCityList= arrayListOf<String>()
     lateinit var sqLiteHelper: SQLiteHelper
     lateinit var PostmanCitiesService:PostmanCitiesAPI
-    lateinit var CountryStateService:CountryStateAPI
     lateinit var openWeatherService:OpenWeatherAPI
-    lateinit var RestCountriesService:RestCountriesAPI
 
     override fun onCreate() {
         super.onCreate()
@@ -53,22 +42,7 @@ class WeatherApp : Application() {
 
         openWeatherService=retrofitOpenWeatherAPI.create(OpenWeatherAPI::class.java)
 
-        val retrofitRestCountriesAPI=Retrofit.Builder()
-            .baseUrl(BASE_URL_RESTCOUNTRY)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        RestCountriesService=retrofitRestCountriesAPI.create(RestCountriesAPI::class.java)
-
-
-        val retrofitCountryStateAPI=Retrofit.Builder()
-            .baseUrl(BASE_URL_CountryState)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        CountryStateService=retrofitCountryStateAPI.create(CountryStateAPI::class.java)
 
         val retrofitPostmanCitiesAPI=Retrofit.Builder()
             .baseUrl(BASE_URL_POSTMANCITIES)

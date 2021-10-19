@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Aras/Desktop/AndroidApps/GitProjects/WeatCast/app/src/main/res/drawable/drawable_back.xml" value="0.14629629629629629" />
         <entry key="..\:/Users/Aras/Desktop/AndroidApps/GitProjects/WeatCast/app/src/main/res/layout/activity_home_page.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Aras/Desktop/AndroidApps/GitProjects/WeatCast/app/src/main/res/layout/activity_main.xml" value="0.2953846153846154" />
         <entry key="..\:/Users/Aras/Desktop/AndroidApps/GitProjects/WeatCast/app/src/main/res/layout/fragment_custom_dialog.xml" value="0.30416666666666664" />
-        <entry key="..\:/Users/Aras/Desktop/AndroidApps/GitProjects/WeatCast/app/src/main/res/layout/recycler_card.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Aras/Desktop/AndroidApps/GitProjects/WeatCast/app/src/main/res/layout/recycler_card.xml" value="0.264" />
       </map>
     </option>
   </component>
