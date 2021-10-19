@@ -32,13 +32,12 @@ class MainActivity : AppCompatActivity() {
                     response: Response<WeatherResponse>
                 ) {
                     var temp= response.body().apply {
-                        main_act_text1.text=this!!.name
+                        main_act_text1.text=cityname
                         main_act_text2.text="${this!!.main.temp}"
                         main_act_text3.text=this!!.weather[0].description
                         main_act_text4.text= "${ this!!.wind.speed }"
                         main_act_text5.text= this!!.weather[0].main
                         main_act_text6.text= "${ this!!.visibility }"
-
                     }
                     //Ui islemleri
 

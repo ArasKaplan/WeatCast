@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.araskaplan.weatcastapp.R
+import com.araskaplan.weatcastapp.base.WeatherApp
 import com.araskaplan.weatcastapp.model.WeatherResponse
 import kotlinx.android.synthetic.main.recycler_card.view.*
 
@@ -28,6 +29,11 @@ class CityAdapter(
             rec_card_img.setOnClickListener(){
                 callback.onListItemSelected(items[position].name)
             }
+        }
+        holder.itemView.rec_card_delete.setOnClickListener {
+            WeatherApp.instance.sqLiteHelper.removeData(items[position].name)
+            items.removeAt(position)
+            notifyDataSetChanged()
         }
 
     }

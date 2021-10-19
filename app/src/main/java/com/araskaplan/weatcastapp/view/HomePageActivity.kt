@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.araskaplan.weatcastapp.R
 import com.araskaplan.weatcastapp.base.WeatherApp
-import com.araskaplan.weatcastapp.model.Weather
-import com.araskaplan.weatcastapp.model.WeatherResponse
+import com.araskaplan.weatcastapp.model.*
 import kotlinx.android.synthetic.main.activity_home_page.*
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -25,37 +24,26 @@ import java.util.LinkedList
 class HomePageActivity : AppCompatActivity() {
     private lateinit var responseList:ArrayList<WeatherResponse>
     private lateinit var myQueue: Queue<String>
+    private lateinit var cityAdapter: CityAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
 
         myQueue=LinkedList()
-
-
-        myQueue.offer("London")
-        myQueue.offer("Istanbul")
-        myQueue.offer("Chicago")
-        myQueue.offer("New York")
-
+        myQueue.addAll(WeatherApp.instance.sqLiteHelper.readData())
         responseList= arrayListOf()
 
-        val cityAdapter=CityAdapter(responseList,object :ListItemSelectedListener{
+
+        cityAdapter=CityAdapter(responseList,object :ListItemSelectedListener{
             override fun onListItemSelected(name: String) {
                 startActivity(Intent(this@HomePageActivity,MainActivity::class.java).putExtra("cityname",name))
             }
         })
 
-        //for (city in cities) getData(city,cityAdapter)
-
-        myQueue.peek().apply {
+        myQueue.peek()?.let {
             getData(myQueue,cityAdapter)
         }
-
-        /*myQueue.poll()?.apply {
-            getData(this,cityAdapter)
-        }*/
-
 
         recyclerview.apply {
             layoutManager=LinearLayoutManager(this@HomePageActivity)
@@ -64,11 +52,14 @@ class HomePageActivity : AppCompatActivity() {
         }
 
         home_page_fab.setOnClickListener{
-            startActivity(Intent(it.context,CityAdderActivity::class.java))
+            var dialog= CustomDialogFragment()
+            dialog.show(supportFragmentManager,"customDialog")
         }
 
 
     }
+
+
 
     private fun getData(city:String, adapter: CityAdapter){
         WeatherApp.instance.openWeatherService.getData(city,"metric").enqueue(
@@ -78,6 +69,7 @@ class HomePageActivity : AppCompatActivity() {
                     response: Response<WeatherResponse>
                 ){
                     response.body()?.let { asd->
+                        asd.name.removeSuffix(" Province")
                         responseList.add(asd)
                         adapter.notifyDataSetChanged()
                         myQueue.poll()?.apply {
@@ -100,7 +92,14 @@ class HomePageActivity : AppCompatActivity() {
                     response: Response<WeatherResponse>
                 ) {
                     response.body()?.let {
-                        responseList.add(it)
+                        val temp=WeatherResponse(
+                            name =it.name.removeSuffix(" Province"),
+                            weather = it.weather,
+                            main = it.main,
+                            visibility = it.visibility,
+                            wind = it.wind
+                        )
+                        responseList.add(temp)
                         adapter.notifyDataSetChanged()
                         queue.peek()?.apply {
                             getData(queue,adapter)
