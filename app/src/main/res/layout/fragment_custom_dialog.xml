@@ -20,9 +20,10 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_margin="10dp"
-            android:text="Select The City You Would Like To See The Forecast Of"
+            android:gravity="center"
+            android:text="Please Select a City"
             android:textSize="24sp" />
 
         <Spinner
@@ -30,7 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp" />
+            android:layout_marginBottom="50dp"
+            android:gravity="center" />
 
         <Button
             android:id="@+id/custom_dialog_fragment_button"
