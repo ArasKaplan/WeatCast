@@ -25,6 +25,7 @@ class HomePageActivity : AppCompatActivity() {
     private lateinit var responseList:ArrayList<WeatherResponse>
     private lateinit var myQueue: Queue<String>
     private lateinit var cityAdapter: CityAdapter
+    var count:Int=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
@@ -112,6 +113,21 @@ class HomePageActivity : AppCompatActivity() {
                 }
             }
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (count==0) count++
+        else{
+            myQueue.clear()
+            responseList.clear()
+
+            myQueue.addAll(WeatherApp.instance.sqLiteHelper.readData())
+            myQueue.peek()?.let {
+                getData(myQueue,cityAdapter)
+            }
+            println("deneme")
+        }
     }
 
 }

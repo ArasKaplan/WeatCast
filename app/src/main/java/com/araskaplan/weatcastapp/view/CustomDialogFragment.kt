@@ -38,6 +38,7 @@ class CustomDialogFragment:DialogFragment() {
             }
             startActivity(Intent(it.context,MainActivity::class.java)
                 .putExtra("cityname",WeatherApp.instance.TRCityList[rootView.custom_dialog_fragment_spinner.selectedItemPosition]))
+            dismiss()
         }
         return rootView
     }

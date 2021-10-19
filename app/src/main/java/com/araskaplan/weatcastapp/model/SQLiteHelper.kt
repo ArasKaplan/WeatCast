@@ -31,7 +31,6 @@ class SQLiteHelper(
         result.let {
             Toast.makeText(context,"The city is now bookmarked.",Toast.LENGTH_LONG).show()
         }
-        db.close()
     }
 
     fun readData():ArrayList<String>{
