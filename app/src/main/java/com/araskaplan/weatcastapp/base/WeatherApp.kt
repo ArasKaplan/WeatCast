@@ -1,6 +1,9 @@
 package com.araskaplan.weatcastapp.base
 
 import android.app.Application
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import com.araskaplan.weatcastapp.BuildConfig
 import com.araskaplan.weatcastapp.model.CityResponse
 import com.araskaplan.weatcastapp.model.CountryPost
 import com.araskaplan.weatcastapp.model.SQLiteHelper
@@ -25,6 +28,7 @@ class WeatherApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance=this
+
 
         val logger = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
